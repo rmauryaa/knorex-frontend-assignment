@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import ExportButton from "./ExportButton"; // Import the ExportButton component
-import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import ExportButton from "./ExportButton";
+import DeleteAlert from "./DeleteAlert";
+import './UserTable.css'; 
 
 const UserTable = ({ users, deleteUser }) => {
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -17,20 +18,22 @@ const UserTable = ({ users, deleteUser }) => {
 
   const handleSelectAll = () => {
     if (selectedUsers.length === users.length) {
-      setSelectedUsers([]); // Deselect all
+      setSelectedUsers([]);
     } else {
-      setSelectedUsers(users.map((user) => user.id)); // Select all users
+      setSelectedUsers(users.map((user) => user.id));
     }
   };
 
-  const handleDelete = (id) => {
-    setUserIdToDelete(id);
-    setIsModalOpen(true); // Open the modal
+  const handleDelete = () => {
+    if (userIdToDelete !== null) {
+      deleteUser(userIdToDelete);
+    }
+    setIsModalOpen(false);
   };
 
-  const confirmDelete = () => {
-    deleteUser(userIdToDelete);
-    setIsModalOpen(false); // Close the modal after deleting
+  const openDeleteModal = (id) => {
+    setUserIdToDelete(id);
+    setIsModalOpen(true);
   };
 
   return (
@@ -42,7 +45,9 @@ const UserTable = ({ users, deleteUser }) => {
               <input
                 type="checkbox"
                 onChange={handleSelectAll}
-                checked={selectedUsers.length === users.length}
+                checked={
+                  selectedUsers.length === users.length && users.length > 0
+                }
               />
             </th>
             <th>First name</th>
@@ -65,21 +70,19 @@ const UserTable = ({ users, deleteUser }) => {
               <td>{user.lastName}</td>
               <td>{user.email}</td>
               <td>
-                <button onClick={() => handleDelete(user.id)}>DELETE</button>
+                <button onClick={() => openDeleteModal(user.id)}>DELETE</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* Render confirmation modal */}
-      <ConfirmDeleteModal
+      <DeleteAlert
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onConfirm={confirmDelete}
+        onConfirm={handleDelete}
       />
 
-      {/* Export Button */}
       <ExportButton users={users} selectedUsers={selectedUsers} />
     </div>
   );

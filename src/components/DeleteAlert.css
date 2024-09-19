@@ -9,6 +9,7 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    /* width: 50%; */
   }
   
   .modal-content {
@@ -17,13 +18,14 @@
     border-radius: 5px;
     text-align: center;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 25%;
   }
   
   .modal-actions {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
-    width: 5%;
+   
   }
   
   .cancel-btn {

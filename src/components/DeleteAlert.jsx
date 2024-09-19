@@ -1,7 +1,7 @@
 import React from "react";
-import "./ConfirmDeleteModal.css"; // Add some basic CSS for styling
+import "./DeleteAlert.css"; 
 
-const ConfirmDeleteModal = ({ isOpen, onClose, onConfirm }) => {
+const DeleteAlert = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
 
   return (
@@ -22,4 +22,4 @@ const ConfirmDeleteModal = ({ isOpen, onClose, onConfirm }) => {
   );
 };
 
-export default ConfirmDeleteModal;
+export default DeleteAlert;
